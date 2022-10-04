@@ -7,6 +7,7 @@ import java.util.*;
 public class Carrinho {
     private Map<String, List<Object>> produtos;
     private double precoTotal;
+    private List<List<String>> db = new DataLoader().loadDataToList("src/br/pucpr/databases/products.csv", true);
 
     public Carrinho() {
         this.produtos = new HashMap<>();
@@ -21,10 +22,6 @@ public class Carrinho {
      * @param qtd Quantidade a ser inserida.
      */
     public void adicionarProduto(String nome, int qtd) {
-        DataLoader loader = new DataLoader();
-        var db = loader.loadDataToList(
-                "src/br/pucpr/databases/products.csv", true);
-
         var p = db.stream()
                 .filter(e -> e.get(0).equals(nome)).toList();
 
@@ -47,7 +44,7 @@ public class Carrinho {
             } else {
                 throw new QuantInvalidaException("Quantidade inválida.");
             }
-        } else throw new ProdutoNaoEncontrado("Produto não encontrado.");
+        } else throw new ProdutoNaoEncontrado();
     }
 
 
@@ -57,25 +54,27 @@ public class Carrinho {
      * @param nova_qtd Quantidade a ser inserida no novo estoque.
      */
     public void editarProduto(String nome, int nova_qtd) {
-        DataLoader loader = new DataLoader();
-        var db = loader.loadDataToList("src/br/pucpr/databases/products.csv", true);
-
         var p = db.stream()
                 .filter(e -> e.get(0).equals(nome)).toList();
+        if (p.size() == 0) throw new ProdutoNaoEncontrado();
 
         var preco = Double.parseDouble(p.get(0).get(1));
+        precoTotal -= preco * (Integer) produtos.get(nome).get(0);
         List<Object> dados = new ArrayList<>();
         if (nova_qtd > 0) {
             dados.add(nova_qtd);
             dados.add(preco * nova_qtd);
+            precoTotal += preco * nova_qtd;
             produtos.replace(nome, produtos.get(nome), dados);
 
         } else throw new QuantInvalidaException("Quantidade inválida");
     }
 
     public void removerProduto(String nome) {
-        precoTotal -= (Double) produtos.get(nome).get(1);
-        produtos.remove(nome);
+        if (produtos.containsKey(nome)) {
+            precoTotal -= (Double) produtos.get(nome).get(1);
+            produtos.remove(nome);
+        } else throw new ProdutoNaoEncontrado();
     }
 
 

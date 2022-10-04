@@ -4,6 +4,7 @@ import br.pucpr.databases.DataLoader;
 
 import java.io.*;
 import java.util.Arrays;
+import java.util.List;
 
 
 public class Usuario {
@@ -11,6 +12,8 @@ public class Usuario {
     private final String senha;
     private Carrinho carrinho;
     private Double gasto;
+    private final List<List<String>> db = new DataLoader().
+            loadDataToList("src/br/pucpr/databases/users.csv", true);
 
 
     public Usuario(String login, String senha) {
@@ -69,9 +72,6 @@ public class Usuario {
      * @return true caso o usuário exista, false caso contrário.
      */
     public boolean existeUsuario() {
-        DataLoader loader = new DataLoader();
-        var db = loader.loadDataToList("src/br/pucpr/databases/users.csv", true);
-
         for (var user : db) {
             if (user.get(0).equals(login)) {
                 return true;
@@ -86,9 +86,6 @@ public class Usuario {
      * @return true caso senha esteja incorreta, false caso contrário.
      */
     public boolean senhaIncorreta() {
-        DataLoader loader = new DataLoader();
-        var db = loader.loadDataToList("src/br/pucpr/databases/users.csv", true);
-
         for (var user : db) {
             if (user.get(0).equals(login)) {
                 if (user.get(1).equals(senha)) {
@@ -104,9 +101,6 @@ public class Usuario {
      */
     public void cadastrarUsuario() {
         try (FileWriter fw = new FileWriter("src/br/pucpr/databases/users.csv", true)) {
-            DataLoader loader = new DataLoader();
-            var db = loader.loadDataToList("src/br/pucpr/databases/users.csv", true);
-
             if (validarCPF(login)) {
                 if (!existeUsuario()) {
                     var user = Arrays.asList(login, senha, "{|0.0}");

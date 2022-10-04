@@ -4,21 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6e32076-96be-4b02-a203-5cdd7301cb02" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/pucpr/databases/DataLoader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/pucpr/databases/products.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/pucpr/databases/users.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/pucpr/system/CPFInvalidoException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/pucpr/system/Carrinho.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/pucpr/system/Produto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/pucpr/system/ProdutoNaoEncontrado.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/pucpr/system/QuantInvalidaException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/pucpr/system/Usuario.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/pucpr/system/UsuarioExistenteException.java" afterDir="false" />
+    <list default="true" id="d6e32076-96be-4b02-a203-5cdd7301cb02" name="Changes" comment="Classe usuario refatorada.">
+      <change afterPath="$PROJECT_DIR$/src/br/pucpr/system/Pagina.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/pucpr/databases/users.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/pucpr/databases/users.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/pucpr/system/Carrinho.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/pucpr/system/Carrinho.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/pucpr/system/ProdutoNaoEncontrado.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/pucpr/system/ProdutoNaoEncontrado.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/pucpr/system/Usuario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/pucpr/system/Usuario.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,7 +108,37 @@
       <workItem from="1664573778469" duration="1444000" />
       <workItem from="1664575356736" duration="20000" />
       <workItem from="1664575401535" duration="954000" />
+      <workItem from="1664578408373" duration="61000" />
+      <workItem from="1664821778295" duration="220000" />
+      <workItem from="1664822022589" duration="1075000" />
+      <workItem from="1664829084594" duration="204000" />
+      <workItem from="1664829299761" duration="3000" />
+      <workItem from="1664829314721" duration="30000" />
+      <workItem from="1664829386206" duration="726000" />
+      <workItem from="1664830166292" duration="1812000" />
+      <workItem from="1664832048449" duration="1000" />
+      <workItem from="1664832068685" duration="914000" />
+      <workItem from="1664833523410" duration="29000" />
+      <workItem from="1664833619836" duration="249000" />
+      <workItem from="1664833933349" duration="20000" />
+      <workItem from="1664834011056" duration="22000" />
+      <workItem from="1664834042860" duration="91000" />
+      <workItem from="1664834150450" duration="120000" />
+      <workItem from="1664834290629" duration="2625000" />
+      <workItem from="1664849515394" duration="11000" />
+      <workItem from="1664849539691" duration="2236000" />
+      <workItem from="1664900964239" duration="960000" />
+      <workItem from="1664901978942" duration="6628000" />
+      <workItem from="1664921328074" duration="1225000" />
     </task>
+    <task id="LOCAL-00001" summary="Classe usuario refatorada.">
+      <created>1664578460258</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1664578460258</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -131,5 +154,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Classe usuario refatorada." />
+    <option name="LAST_COMMIT_MESSAGE" value="Classe usuario refatorada." />
   </component>
 </project>
