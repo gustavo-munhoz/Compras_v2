@@ -15,8 +15,8 @@ public class Carrinho {
     }
 
     /**
-     * Adiciona um novo produto ao carrinho do usu·rio.
-     * Recebe nome e quantidade de um produto a ser inserido, e calcula o preÁo adicional sobre o preÁo total
+     * Adiciona um novo produto ao carrinho do usu√°rio.
+     * Recebe nome e quantidade de um produto a ser inserido, e calcula o pre√ßo adicional sobre o pre√ßo total
      * no carrinho atual.
      * @param nome Nome do produto a ser inserido.
      * @param qtd Quantidade a ser inserida.
@@ -42,14 +42,14 @@ public class Carrinho {
 
                 produtos.put(nome, dados);
             } else {
-                throw new QuantInvalidaException("Quantidade inv·lida.");
+                throw new QuantInvalidaException("Quantidade inv√°lida.");
             }
         } else throw new ProdutoNaoEncontrado();
     }
 
 
     /**
-     * Permite a ediÁ„o da quantidade de produtos no carrinho.
+     * Permite a edi√ß√£o da quantidade de produtos no carrinho.
      * @param nome Nome do produto a ser editado.
      * @param nova_qtd Quantidade a ser inserida no novo estoque.
      */
@@ -67,7 +67,7 @@ public class Carrinho {
             precoTotal += preco * nova_qtd;
             produtos.replace(nome, produtos.get(nome), dados);
 
-        } else throw new QuantInvalidaException("Quantidade inv·lida");
+        } else throw new QuantInvalidaException("Quantidade inv√°lida");
     }
 
     public void removerProduto(String nome) {
@@ -98,9 +98,9 @@ public class Carrinho {
     public String toString() {
         String str = "";
         for (String produto : produtos.keySet()) {
-            str = str.concat("%d %s $%.2f;".formatted( (Integer) produtos.get(produto).get(0), produto,
+            str = str.concat("%d %s $%.2f,".formatted( (Integer) produtos.get(produto).get(0), produto,
                     (Double) produtos.get(produto).get(1)));
         }
-        return str;
+        return str.substring(0, str.length() - 1);
     }
 }

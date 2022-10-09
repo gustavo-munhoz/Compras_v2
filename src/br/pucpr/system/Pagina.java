@@ -36,18 +36,18 @@ public class Pagina {
     }
 
     /**
-     * Adiciona uma string à lista de textos.
+     * Adiciona uma string Ã  lista de textos.
      *
-     * @param str é o texto a ser inserido.
+     * @param str Ã© o texto a ser inserido.
      */
     public void adicionarTexto(String str) {
         this.texto.add(str);
     }
 
     /**
-     * Permite a paginação do texto recebido no atributo da classe.
+     * Permite a paginaÃ§Ã£o do texto recebido no atributo da classe.
      *
-     * @return uma lista delimitada pelos índices escolhidos (linha final e inicial).
+     * @return uma lista delimitada pelos Ã­ndices escolhidos (linha final e inicial).
      */
     public List<String> mostrarPagina() {
         if (linha_final <= texto.size()) {
@@ -58,7 +58,7 @@ public class Pagina {
     }
 
     /**
-     * Transforma a linha inicial na final e avança a final pelo tamanho da página.
+     * Transforma a linha inicial na final e avanÃ§a a final pelo tamanho da pÃ¡gina.
      */
     public void avancarPagina() {
         int qtd_linhas = linha_final - linha_inicial;
@@ -67,7 +67,7 @@ public class Pagina {
     }
 
     /**
-     * Transforma a linha final em inicial e retrai a inicial pelo tamanho da página.
+     * Transforma a linha final em inicial e retrai a inicial pelo tamanho da pÃ¡gina.
      */
     public void voltarPagina() {
         int qtd_linhas = linha_final - linha_inicial;

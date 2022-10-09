@@ -68,8 +68,8 @@ public class Usuario {
     }
 
     /**
-     * Procura no usuario no banco de dados users.csv, mas nao verifica se a senha est· correta.
-     * @return true caso o usu·rio exista, false caso contr·rio.
+     * Procura no usuario no banco de dados users.csv, mas nao verifica se a senha est√° correta.
+     * @return true caso o usu√°rio exista, false caso contr√°rio.
      */
     public boolean existeUsuario() {
         for (var user : db) {
@@ -81,9 +81,9 @@ public class Usuario {
     }
 
     /**
-     * Verifica se a senha inserida est· incorreta. Procura o valor inserido dentro do banco de dados,
-     * e confere se corresponde ‡ senha do usuario inserido.
-     * @return true caso senha esteja incorreta, false caso contr·rio.
+     * Verifica se a senha inserida est√° incorreta. Procura o valor inserido dentro do banco de dados,
+     * e confere se corresponde √† senha do usuario inserido.
+     * @return true caso senha esteja incorreta, false caso contr√°rio.
      */
     public boolean senhaIncorreta() {
         for (var user : db) {
@@ -97,7 +97,7 @@ public class Usuario {
     }
 
     /**
-     * Insere o usu·rio no banco de dados, com login, senha e total de gastos com valor inicial 0.
+     * Insere o usu√°rio no banco de dados, com login, senha e total de gastos com valor inicial 0.
      */
     public void cadastrarUsuario() {
         try (FileWriter fw = new FileWriter("src/br/pucpr/databases/users.csv", true)) {
@@ -107,9 +107,9 @@ public class Usuario {
                     db.add(user);
                     fw.write("\n" + login + ";" + senha + ";" + "{|0.0}");
                 }
-                else throw new UsuarioExistenteException("Usu·rio j· cadastrado.");
+                else throw new UsuarioExistenteException("Usu√°rio j√° cadastrado.");
             }
-            else throw new CPFInvalidoException("CPF inv·lido.");
+            else throw new CPFInvalidoException("CPF inv√°lido.");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -158,8 +158,8 @@ public class Usuario {
 
     /**
      * Converte os objetos do tipo Object do atributo produtos para Integer e Double,
-     * mostrando assim a quantidade, nome e preÁo de cada produto contido no carrinho.
-     * Mostra tambÈm o preÁo total.
+     * mostrando assim a quantidade, nome e pre√ßo de cada produto contido no carrinho.
+     * Mostra tamb√©m o pre√ßo total.
      */
     public void exibirCarrinho() {
         System.out.println("\n---MEU CARRINHO---");
@@ -168,6 +168,6 @@ public class Usuario {
             System.out.printf("%d %s, $%.2f\n", (Integer) produtos.get(produto).get(0),
                     produto, (Double) produtos.get(produto).get(1));
         }
-        System.out.printf("PreÁo total: $%.2f\n", carrinho.getPrecoTotal());
+        System.out.printf("Pre√ßo total: $%.2f\n", carrinho.getPrecoTotal());
     }
 }

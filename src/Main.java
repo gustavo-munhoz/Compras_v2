@@ -2,26 +2,25 @@ import br.pucpr.databases.DataLoader;
 import br.pucpr.system.*;
 
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
-
-/*
- * Requisitos do programa:
- * Sistema de login com opção de cadastrar usuário e usuário administrador OK
- * Menu de compras com:
- * Busca de produtos; OK
- * Listagem de produtos; OK
- * Adicionar produto ao carrinho; OK
- * Exibir carrinho / finalizar compra e salvar no histórico do cliente. OK
- * Relatório de clientes (função disponível só para admin) com:
- * Listagem de clientes ordenados por gasto, número de compras, total comprado e valor médio de compra; OK
- * Total geral vendido. OK
- * Listagens paginadas, com opção de avançar e voltar OK
- */
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class Main {
+
+    public static final String RESET = "\u001B[0m";
+    public static final String VERMELHO = "\u001B[31m";
+    public static final String VERDE = "\u001B[32m";
+    public static final String AMARELO = "\u001B[33m";
+    public static final String AZUL = "\u001B[34m";
+    public static final String ROXO = "\u001B[35m";
+
+    public static final String CIANO = "\u001B[36m";
+
+
     public static void main(String[] args) throws InterruptedException {
+        Locale.setDefault(new Locale("en", "US")); // o programa estava formatando doubles com ","
         DataLoader loader = new DataLoader();
         boolean sair = false;
 
@@ -39,9 +38,10 @@ public class Main {
 
         do {
             if (user == null) {
-                System.out.println("Bem vindo ao novo e refatorado supermercado TXT!\nPor favor, faça login abaixo.");
+                System.out.println(CIANO + "Bem vindo ao novo e refatorado supermercado TXT!" +
+                        "\nPor favor, faÃ§a login abaixo." + RESET);
 
-                System.out.print("Digite seu CPF (somente números): ");
+                System.out.print("Digite seu CPF (somente nÃºmeros): ");
                 String login = in.nextLine();
                 System.out.print("Digite sua senha: ");
                 String senha = in.nextLine();
@@ -49,16 +49,16 @@ public class Main {
 
                 if (!user.existeUsuario()) {
                     int tentativas = 0;
-                    System.out.println("Usuário inexsistente! Deseja se cadastrar?");
-                    System.out.println("[1] Sim\n[2] Não");
-                    System.out.print("Insira a opção desejada: ");
+                    System.out.println("UsuÃ¡rio inexsistente! Deseja se cadastrar?");
+                    System.out.println("[1] Sim\n[2] NÃ£o");
+                    System.out.print("Insira a opÃ§Ã£o desejada: ");
                     String tentativa = in.nextLine();
 
                     while (!tentativa.equals("1") && !tentativa.equals("2")) {
-                        System.out.println("Insira uma opção válida!");
-                        System.out.println("Usuário inexsistente! Deseja se cadastrar?");
-                        System.out.println("[1] Sim\n[2] Não");
-                        System.out.print("Insira a opção desejada: ");
+                        System.out.println("Insira uma opÃ§Ã£o vÃ¡lida!");
+                        System.out.println("UsuÃ¡rio inexsistente! Deseja se cadastrar?");
+                        System.out.println("[1] Sim\n[2] NÃ£o");
+                        System.out.print("Insira a opÃ§Ã£o desejada: ");
                         tentativa = in.nextLine();
                     }
 
@@ -70,26 +70,27 @@ public class Main {
                             } else {
                                 System.out.println("Finalizando...");
                                 Thread.sleep(500);
-                                System.out.println("Até a próxima!");
+                                System.out.println("AtÃ© a prÃ³xima!");
                                 System.exit(0);
                             }
                         } catch (CPFInvalidoException | UsuarioExistenteException e) {
                             tentativas++;
-                            if (!user.existeUsuario()) System.out.println("CPF inválido! Tente novamente.");
-                            else System.out.println("Usuário já cadastrado. Tente novamente.");
+                            if (!user.existeUsuario()) System.out.println("CPF invÃ¡lido! Tente novamente.");
+                            else System.out.println("UsuÃ¡rio jÃ¡ cadastrado. Tente novamente.");
 
-                            System.out.print("Digite seu CPF (somente números): ");
+                            System.out.print("Digite seu CPF (somente nÃºmeros): ");
                             login = in.nextLine();
                             System.out.print("Digite sua senha: ");
                             senha = in.nextLine();
                             user = new Usuario(login, senha);
 
-                            if (tentativas == 3) {
-                                System.out.println("Número máximo de tentativas excedido. Finalizando...");
+                            if (tentativas == 2) {
+                                System.out.println("NÃºmero mÃ¡ximo de tentativas excedido. Finalizando...");
                                 System.exit(1);
                             }
                         }
                     } while (!tentativa.equals("0"));
+
                 } else if (user.senhaIncorreta()) {
                     do {
                         System.out.println("Senha incorreta! Tente novamente.");
@@ -136,18 +137,18 @@ public class Main {
                                         int indice = 1;
 
                                         do {
-                                            System.out.printf("\n\t   --PÁGINA %d--\n", indice);
+                                            System.out.printf(AMARELO + "\n\t   --PÃGINA %d--\n", indice);
                                             for (String l : pag.mostrarPagina()) {
                                                 System.out.println(l);
                                             }
-                                            System.out.printf("\t\t--%d/%d--\n", indice,
+                                            System.out.printf("\t\t--%d/%d--\n" + RESET, indice,
                                                     pag.getTexto().size() /
                                                             (pag.getLinha_final() - pag.getLinha_inicial()) + 1);
 
-                                            System.out.println("[1] Para página anterior");
-                                            System.out.println("[2] Para próxima página");
+                                            System.out.println("[1] Para pÃ¡gina anterior");
+                                            System.out.println("[2] Para prÃ³xima pÃ¡gina");
                                             System.out.println("[3] Para voltar ao menu");
-                                            System.out.print("Insira a opção desejada: ");
+                                            System.out.print("Insira a opÃ§Ã£o desejada: ");
                                             continuar = Integer.parseInt(in.nextLine());
 
                                             if (continuar == 1) {
@@ -156,7 +157,7 @@ public class Main {
                                                     indice -= 1;
                                                 }
                                                 else {
-                                                    System.out.println("Ação inválida.");
+                                                    System.out.println("AÃ§Ã£o invÃ¡lida.");
                                                     standby();
                                                 }
                                             }
@@ -166,7 +167,7 @@ public class Main {
                                                     indice += 1;
                                                 }
                                                 else {
-                                                    System.out.println("Ação inválida.");
+                                                    System.out.println("AÃ§Ã£o invÃ¡lida.");
                                                     standby();
                                                 }
                                             }
@@ -175,7 +176,7 @@ public class Main {
                                                 Thread.sleep(300);
                                             }
                                             else {
-                                                System.out.println("Insira uma opção válida!");
+                                                System.out.println("Insira uma opÃ§Ã£o vÃ¡lida!");
                                             }
                                         } while (continuar != 3);
 
@@ -198,18 +199,21 @@ public class Main {
                                                     int qtd = Integer.parseInt(in.nextLine());
 
                                                     user.getCarrinho().adicionarProduto(nome, qtd);
-                                                    System.out.println("Produto adicionado com sucesso.");
+                                                    System.out.println(VERDE + "Produto adicionado com sucesso." + RESET);
+                                                    standby();
                                                     sucesso = true;
                                                 } else throw new ProdutoNaoEncontrado();
 
                                             } catch (ProdutoNaoEncontrado e) {
-                                                System.out.println("Produto não encontrado! Tente novamente.");
+                                                System.out.println("Produto nÃ£o encontrado! Tente novamente.");
                                             }
                                         } while (!sucesso);
                                     }
                                     case 4 -> {
+                                        System.out.print(AZUL);
                                         user.exibirCarrinho();
-
+                                        System.out.println("------------------");
+                                        System.out.println(RESET);
                                         do {
                                             mostrarMenuCarrinho();
                                             escolha_carrinho = Integer.parseInt(in.nextLine());
@@ -222,10 +226,10 @@ public class Main {
                                                     do {
                                                         System.out.println("""
                                                                 
-                                                                Ações disponíveis:
+                                                                AÃ§Ãµes disponÃ­veis:
                                                                 [1] Editar produto
                                                                 [2] Remover produto""");
-                                                        System.out.print("Insira a opção desejada: ");
+                                                        System.out.print("Insira a opÃ§Ã£o desejada: ");
                                                         escolha_editar = Integer.parseInt(in.nextLine());
 
                                                         switch (escolha_editar) {
@@ -239,12 +243,12 @@ public class Main {
                                                                         System.out.print("Insira a nova quantidade: ");
                                                                         int qtd = Integer.parseInt(in.nextLine());
                                                                         user.getCarrinho().editarProduto(nome, qtd);
-                                                                        System.out.println("Produto modificado" +
-                                                                                " com sucesso.");
+                                                                        System.out.println( VERDE + "Produto modificado" +
+                                                                                " com sucesso."+ RESET);
                                                                         standby();
                                                                         sucesso = true;
                                                                     } catch (ProdutoNaoEncontrado e) {
-                                                                        System.out.println("Produto não encontrado.");
+                                                                        System.out.println("Produto nÃ£o encontrado.");
                                                                     }
                                                                 } while (!sucesso);
 
@@ -257,30 +261,82 @@ public class Main {
                                                                                 " a remover: ");
                                                                         String nome = in.nextLine().toUpperCase();
                                                                         user.getCarrinho().removerProduto(nome);
-                                                                        System.out.println("Produto removido " +
-                                                                                "com sucesso.");
+                                                                        System.out.println(VERDE + "Produto removido " +
+                                                                                "com sucesso." + RESET);
                                                                         standby();
                                                                         sucesso = true;
 
                                                                     } catch (ProdutoNaoEncontrado e) {
-                                                                        System.out.println("Produto não encontrado.");
+                                                                        System.out.println("Produto nÃ£o encontrado.");
                                                                     }
                                                                 } while (!sucesso);
                                                             }
                                                             default -> {
-                                                                System.out.println("Opção inválida. Tente novamente");
+                                                                System.out.println("OpÃ§Ã£o invÃ¡lida. Tente novamente");
                                                                 standby();
                                                             }
                                                         }
                                                     } while (!Arrays.asList(1, 2).contains(escolha_editar));
 
-
                                                 }
                                                 case 3 -> {
+                                                    System.out.println("Finalizando compra...");
+                                                    var carrinho = user.getCarrinho().getProdutos();
+                                                    for (var p : produtos) {
+                                                        if (carrinho.containsKey(p.get(0))) {
+                                                            p.set(2, "%d".formatted(Integer.parseInt(p.get(2))
+                                                                    - (Integer) carrinho.get(p.get(0)).get(0)));
+                                                        }
+                                                    }
+                                                    try (FileWriter fw = new
+                                                            FileWriter("src/br/pucpr/databases/products.csv",
+                                                            StandardCharsets.UTF_8))
+                                                    {
+                                                        StringBuilder novo_db = new StringBuilder();
+                                                        for (var p : produtos) {
+                                                            novo_db.append("%s;%s;%s\n".formatted(
+                                                                    p.get(0), p.get(1), p.get(2)));
+                                                        }
+                                                        fw.write("PRODUTO;PREÃ‡O;ESTOQUE\n" + novo_db);
+                                                    } catch (IOException e) {
+                                                        e.printStackTrace();
+                                                    }
 
+                                                    try (FileWriter fw = new
+                                                            FileWriter("src/br/pucpr/databases/users.csv",
+                                                            StandardCharsets.UTF_8)) {
+                                                        for (var u : usuarios) {
+                                                            if (u.get(0).equals(user.getLogin())) {
+                                                                String oldCompras = u.get(2).substring(1,
+                                                                        u.get(2).indexOf("|"));
+                                                                String newCompras = oldCompras.concat(",%s"
+                                                                                .formatted(
+                                                                                        user.getCarrinho().toString()));
+
+                                                                u.set(2, "{%s|%.2f}".formatted(
+                                                                        newCompras,
+                                                                        user.getCarrinho().getPrecoTotal() +
+                                                                        user.getGasto()));
+                                                            }
+                                                        }
+                                                        StringBuilder novo_db = new StringBuilder();
+                                                        for (var u : usuarios) {
+                                                            novo_db.append("%s;%s;%s\n".formatted(
+                                                                    u.get(0), u.get(1), u.get(2)));
+                                                        }
+                                                        fw.write("LOGIN;SENHA;HISTÃ“RICO\n" + novo_db);
+                                                    } catch (IOException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                    Thread.sleep(1000);
+                                                    System.out.println(VERDE + "Compra finalizada com sucesso.");
+                                                    Thread.sleep(1500);
+                                                    System.out.println("Obrigado e atÃ© a prÃ³xima!" + RESET);
+                                                    Thread.sleep(1000);
+                                                    System.exit(0);
                                                 }
                                                 default -> {
-                                                    System.out.println("Opção inválida. Tente novamente");
+                                                    System.out.println("OpÃ§Ã£o invÃ¡lida. Tente novamente");
                                                     standby();
                                                 }
                                             }
@@ -288,77 +344,168 @@ public class Main {
                                     }
                                     case 5 -> System.out.println("Voltando...");
 
-                                    default -> System.out.println("Opção inválida! Tente novamente.");
+                                    default -> System.out.println("OpÃ§Ã£o invÃ¡lida! Tente novamente.");
                                 }
                             } while (escolha_compras != 5);
                         }
                         case 2 -> {
-                            System.out.println("Usuário desconectado.");
+                            System.out.println("UsuÃ¡rio desconectado.");
                             Thread.sleep(1000);
-                            System.out.println("Por favor, faça login novamente.\n");
+                            System.out.println("Por favor, faÃ§a login novamente.\n");
                             Thread.sleep(1000);
                             user = null;
                         }
                         case 3 -> {
-                            System.out.println("SUPERMERCADO TXT, V2.");
-                            System.out.println("Criado por Gustavo Munhoz Corrêa.");
+                            System.out.println(ROXO + "SUPERMERCADO TXT, V2." + RESET);
+                            System.out.println("Criado por" + CIANO +  " Gustavo Munhoz CorrÃªa." + RESET);
                             standby();
                         }
                         case 4 -> {
                             System.out.println("Finalizando...");
                             Thread.sleep(500);
-                            System.out.println("Até a próxima!");
+                            System.out.println("AtÃ© a prÃ³xima!");
                             sair = true;
                         }
-                        default -> System.out.println("Opção inválida! Tente novamente.");
+                        default -> System.out.println("OpÃ§Ã£o invÃ¡lida! Tente novamente.");
                     }
                 } else {
                     mostrarMenuAdmin();
+                    escolha_admin = Integer.parseInt(in.nextLine());
+
+                    switch (escolha_admin) {
+                        case 1 -> {
+                            System.out.print("Deseja salvar o relatÃ³rio? [S/N] ");
+                            String salvar = in.nextLine().toUpperCase();
+                            while (!Arrays.asList("S","N").contains(salvar)) {
+                                System.out.println("OpÃ§Ã£o invÃ¡lida! Tente novamente.");
+                                System.out.print("Deseja salvar o relatÃ³rio?");
+                                salvar = in.nextLine().toUpperCase();
+                            }
+                            imprimirRelatorio(salvar.equals("S"));
+                            standby();
+                        }
+                        case 2 -> {
+                            System.out.print("Insira o nome do produto a cadastrar: ");
+                            String nome = in.nextLine().toUpperCase();
+                            boolean existe = false;
+                            for (var p : produtos) {
+                                if (p.get(0).equals(nome)) {
+                                    existe = true;
+                                    break;
+                                }
+                            }
+                            if (!existe) {
+                                System.out.print("Insira o preÃ§o: ");
+                                double preco = Double.parseDouble(in.nextLine());
+                                if (preco >= 0) {
+                                    System.out.print("Insira o estoque inicial: ");
+                                    int estoque = Integer.parseInt(in.nextLine());
+                                    if (estoque > 0) {
+                                        List<String> produto = Arrays.asList(nome, "%.2f".formatted(preco),
+                                                "%d".formatted(estoque));
+                                        produtos.add(produto);
+                                        try (FileWriter fw = new
+                                                FileWriter("src/br/pucpr/databases/products.csv",
+                                                StandardCharsets.UTF_8,
+                                                true))
+                                        {
+                                            fw.write("%s;%.2f;%d\n".formatted(nome, preco, estoque));
+                                            fw.flush();
+                                            System.out.println(VERDE + "Produto cadastrado com sucesso." + RESET);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    } else System.out.println("Estoque invÃ¡lido.");
+                                } else System.out.println("PreÃ§o invÃ¡lido.");
+                            } else System.out.println("Produto jÃ¡ cadastrado.");
+                            standby();
+                        }
+                        case 3 -> {
+                            System.out.print("Insira o nome do produto: ");
+                            String nome = in.nextLine().toUpperCase();
+                            boolean existe = false;
+                            int index = 0;
+                            for (var p : produtos) {
+                                if (p.get(0).equals(nome)) {
+                                    existe = true;
+                                    index = produtos.indexOf(p);
+                                    break;
+                                }
+                            }
+                            if (existe) {
+                                System.out.print("Insira a quantidade a adicionar: ");
+                                int qtd = Integer.parseInt(in.nextLine());
+                                if (qtd > 0) {
+                                    int novoEstoque = Integer.parseInt(produtos.get(index).get(2)) + qtd;
+                                    produtos.get(index).set(2, "%d".formatted(novoEstoque));
+                                    try (FileWriter fw = new
+                                            FileWriter("src/br/pucpr/databases/products.csv",
+                                            StandardCharsets.UTF_8))
+                                    {
+                                        StringBuilder novo_db = new StringBuilder();
+                                        for (var p : produtos) {
+                                            novo_db.append("%s;%s;%s\n".formatted(
+                                                    p.get(0), p.get(1), p.get(2)));
+                                        }
+                                        fw.write("PRODUTO;PREÃ‡O;ESTOQUE\n" + novo_db);
+                                        System.out.println(VERDE + "Estoque adicionado com sucesso." + RESET);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                } else System.out.println("Quantidade invÃ¡lida.");
+                            } else System.out.println("Produto nÃ£o encontrado.");
+                            standby();
+                        }
+                        case 4 -> {
+                            System.out.println("Finalizando...");
+                            sair = true;
+                        }
+                        default -> System.out.println("Insira uma opÃ§Ã£o vÃ¡lida!");
+                    }
                 }
             }
         } while (!sair);
     }
 
     static void mostrarMenuPrincipal() {
-        System.out.println("\n---MENU PRINCIPAL---");
+        System.out.println(VERMELHO + "\n---MENU PRINCIPAL---" + RESET);
         System.out.println("O que gostaria de fazer?");
         System.out.println("[1] Fazer compras");
-        System.out.println("[2] Trocar usuário");
+        System.out.println("[2] Trocar usuÃ¡rio");
         System.out.println("[3] Sobre");
         System.out.println("[4] Sair");
-        System.out.print("Insira a opção desejada: ");
+        System.out.print("Insira a opÃ§Ã£o desejada: ");
     }
 
     static void mostrarMenuCompras() {
-        System.out.println("\n---MENU DE COMPRAS---");
+        System.out.println(VERDE + "\n---MENU DE COMPRAS---" + RESET);
         System.out.println("O que gostaria de fazer?");
         System.out.println("[1] Buscar produto");
         System.out.println("[2] Listar produtos");
         System.out.println("[3] Adicionar produto ao carrinho");
         System.out.println("[4] Exibir carrinho");
         System.out.println("[5] Voltar ao menu principal");
-        System.out.print("Insira a opção desejada: ");
+        System.out.print("Insira a opÃ§Ã£o desejada: ");
     }
 
     static void mostrarMenuCarrinho() {
-        System.out.println("------------------");
         System.out.println("[1] Continuar comprando");
         System.out.println("[2] Editar carrinho");
         System.out.println("[3] Finalizar compra");
-        System.out.print("Insira a opção desejada: ");
+        System.out.print("Insira a opÃ§Ã£o desejada: ");
     }
 
     /**
-     * Imprime um menu acessível somente ao usuário administrador.
+     * Imprime um menu acessÃ­vel somente ao usuÃ¡rio administrador.
      */
     static void mostrarMenuAdmin() {
-        System.out.println("---ADMINISTRADOR---");
+        System.out.println(AZUL + "---ADMINISTRADOR---" + RESET);
         System.out.println("O que gostaria de fazer?");
-        System.out.println("[1] Relatório de clientes");
+        System.out.println("[1] RelatÃ³rio de clientes");
         System.out.println("[2] Cadastrar produto");
         System.out.println("[3] Adicionar estoque");
         System.out.println("[4] Sair");
-        System.out.print("Insira a opção desejada: ");
+        System.out.print("Insira a opÃ§Ã£o desejada: ");
     }
 
     public static void standby() {
@@ -366,6 +513,92 @@ public class Main {
         String continuar = null;
         System.out.print("Pressione ENTER para continuar...");
         continuar = in.nextLine();
+    }
+
+    public static void imprimirRelatorio(boolean salvar) {
+        File usuarios = new File("src/br/pucpr/databases/users.csv");
+        double totalGeral = 0;
+        int contador = 0;
+        String arquivo = "--RELATÃ“RIO DE VENDAS--\n";
+        System.out.println("--RELATÃ“RIO DE VENDAS--");
+
+        Date data = Calendar.getInstance().getTime();
+        SimpleDateFormat formatador = new SimpleDateFormat("dd-MM-yyyy");
+        String strData = formatador.format(data);
+
+
+        try {
+            Scanner sc1 = new Scanner(usuarios);
+            List<List<String>> organizador = new ArrayList<>();
+
+            while (sc1.hasNextLine()) {
+                String linha = sc1.nextLine();
+                List<String> dados_cliente = new ArrayList<>();
+                if (!linha.substring(0, linha.indexOf(";")).equals("admin") &&
+                        !linha.substring(0, linha.indexOf(";")).equals("LOGIN")) {
+
+                    String gasto_ind = linha.substring(linha.indexOf("|") + 1, linha.length() - 1);
+                    if (!gasto_ind.equals("0.0")) {
+                        dados_cliente.add(linha.substring(0, linha.indexOf(";")));
+                        dados_cliente.add(gasto_ind);
+                        organizador.add(dados_cliente);
+                        totalGeral += Double.parseDouble(gasto_ind);
+                        contador += 1;
+                    }
+                }
+            }
+            ComparadorUsuarios comp = new ComparadorUsuarios();
+            organizador.sort(comp.reversed());
+
+            for (List<String> user : organizador) {
+                System.out.printf("\n%s, $%s\n", user.get(0), user.get(1));
+                arquivo = arquivo.concat("%s, $%s\n".formatted(user.get(0), user.get(1)));
+                Scanner sc2 = new Scanner(usuarios);
+
+                while (sc2.hasNextLine()) {
+                    String linha = sc2.nextLine();
+                    List<String> produtos;
+
+                    if (!linha.substring(0, linha.indexOf(";")).equals("admin") &&
+                            !linha.substring(0, linha.indexOf(";")).equals("LOGIN")) {
+
+                        if (!linha.substring(linha.indexOf("|") + 1, linha.length() - 1).equals("0.0")) {
+                            if (linha.substring(0, linha.indexOf(";")).equals(user.get(0))) {
+                                produtos = List.of(linha.substring(linha.indexOf("{") + 1,
+                                        linha.indexOf("|")).split(","));
+                                for (String produto : produtos) {
+                                    System.out.printf("\t%s\n", produto);
+                                    arquivo = arquivo.concat("\t%s\n".formatted(produto));
+                                }
+                                arquivo = arquivo.concat("\n");
+                            }
+                        }
+
+                    }
+                }
+            }
+            arquivo = arquivo.concat("------------------\n");
+            arquivo = arquivo.concat("TOTAL GERAL: $%.2f\n".formatted(totalGeral));
+            arquivo = arquivo.concat("VALOR MÃ‰DIO: $%.2f\n".formatted(totalGeral / contador));
+
+
+            System.out.println("------------------");
+            System.out.printf("TOTAL GERAL: $%.2f\n", totalGeral);
+            System.out.printf("VALOR MÃ‰DIO: $%.2f\n", totalGeral / contador);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if (salvar) {
+            try {
+                PrintWriter pw = new PrintWriter("RELATORIO_%s.txt".formatted(strData));
+                pw.println(arquivo);
+                pw.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
 
