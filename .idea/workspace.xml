@@ -4,17 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6e32076-96be-4b02-a203-5cdd7301cb02" name="Changes" comment="Menu de admin e finalizarCompra a serem refatoradas.">
-      <change afterPath="$PROJECT_DIR$/src/br/pucpr/system/ComparadorUsuarios.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+    <list default="true" id="d6e32076-96be-4b02-a203-5cdd7301cb02" name="Changes" comment="Sistema finalizado!">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/br/pucpr/databases/products.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/pucpr/databases/products.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/br/pucpr/databases/users.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/pucpr/databases/users.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/br/pucpr/system/Carrinho.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/pucpr/system/Carrinho.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/pucpr/system/Pagina.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/pucpr/system/Pagina.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/pucpr/system/Produto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/pucpr/system/Usuario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/pucpr/system/Usuario.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/pucpr/system/QuantInvalidaException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/pucpr/system/QuantInvalidaException.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,21 +39,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/GAMER/OneDrive - Grupo Marista/Documents/PUC/Curso Visionnaire/Curso Java/Compras_v2",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "File.Encoding"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/GAMER/OneDrive - Grupo Marista/Documents/PUC/Curso Visionnaire/Curso Java/Compras_v2&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;File.Encoding&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
@@ -142,6 +138,7 @@
       <workItem from="1665352165004" duration="325000" />
       <workItem from="1665352548820" duration="5045000" />
       <workItem from="1665358113554" duration="241000" />
+      <workItem from="1665364620788" duration="3294000" />
     </task>
     <task id="LOCAL-00001" summary="Classe usuario refatorada.">
       <created>1664578460258</created>
@@ -177,7 +174,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Classe usuario refatorada." />
     <MESSAGE value="Menu de admin e finalizarCompra a serem refatoradas." />
-    <option name="LAST_COMMIT_MESSAGE" value="Menu de admin e finalizarCompra a serem refatoradas." />
+    <MESSAGE value="Sistema finalizado!" />
+    <option name="LAST_COMMIT_MESSAGE" value="Sistema finalizado!" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

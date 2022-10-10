@@ -42,7 +42,7 @@ public class Carrinho {
 
                 produtos.put(nome, dados);
             } else {
-                throw new QuantInvalidaException("Quantidade inválida.");
+                throw new QuantInvalidaException();
             }
         } else throw new ProdutoNaoEncontrado();
     }
@@ -67,7 +67,7 @@ public class Carrinho {
             precoTotal += preco * nova_qtd;
             produtos.replace(nome, produtos.get(nome), dados);
 
-        } else throw new QuantInvalidaException("Quantidade inválida");
+        } else throw new QuantInvalidaException();
     }
 
     public void removerProduto(String nome) {

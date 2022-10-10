@@ -280,60 +280,80 @@ public class Main {
 
                                                 }
                                                 case 3 -> {
-                                                    System.out.println("Finalizando compra...");
-                                                    var carrinho = user.getCarrinho().getProdutos();
-                                                    for (var p : produtos) {
-                                                        if (carrinho.containsKey(p.get(0))) {
-                                                            p.set(2, "%d".formatted(Integer.parseInt(p.get(2))
-                                                                    - (Integer) carrinho.get(p.get(0)).get(0)));
-                                                        }
-                                                    }
-                                                    try (FileWriter fw = new
-                                                            FileWriter("src/br/pucpr/databases/products.csv",
-                                                            StandardCharsets.UTF_8))
-                                                    {
-                                                        StringBuilder novo_db = new StringBuilder();
+                                                    try {
+                                                        System.out.println("Finalizando compra...");
+                                                        var carrinho = user.getCarrinho().getProdutos();
                                                         for (var p : produtos) {
-                                                            novo_db.append("%s;%s;%s\n".formatted(
-                                                                    p.get(0), p.get(1), p.get(2)));
+                                                            if (carrinho.containsKey(p.get(0))) {
+                                                                int novoEstoque = Integer.parseInt(p.get(2))
+                                                                        - (Integer) carrinho.get(p.get(0)).get(0);
+                                                                if (novoEstoque > 0) {
+                                                                    p.set(2, "%d".formatted(novoEstoque));
+                                                                } else {
+                                                                    throw new QuantInvalidaException("%s em estoque: %s"
+                                                                            .formatted(p.get(0), p.get(2)));
+                                                                }
+                                                            }
                                                         }
-                                                        fw.write("PRODUTO;PREÇO;ESTOQUE\n" + novo_db);
-                                                    } catch (IOException e) {
-                                                        e.printStackTrace();
-                                                    }
+                                                        try (FileWriter fw = new
+                                                                FileWriter("src/br/pucpr/databases/products.csv",
+                                                                StandardCharsets.UTF_8)) {
+                                                            StringBuilder novo_db = new StringBuilder();
+                                                            for (var p : produtos) {
+                                                                novo_db.append("%s;%s;%s\n".formatted(
+                                                                        p.get(0), p.get(1), p.get(2)));
+                                                            }
+                                                            fw.write("PRODUTO;PREÇO;ESTOQUE\n" + novo_db);
+                                                        } catch (IOException e) {
+                                                            e.printStackTrace();
+                                                        }
 
-                                                    try (FileWriter fw = new
-                                                            FileWriter("src/br/pucpr/databases/users.csv",
-                                                            StandardCharsets.UTF_8)) {
-                                                        for (var u : usuarios) {
-                                                            if (u.get(0).equals(user.getLogin())) {
-                                                                String oldCompras = u.get(2).substring(1,
-                                                                        u.get(2).indexOf("|"));
-                                                                String newCompras = oldCompras.concat(",%s"
+                                                        try (FileWriter fw = new
+                                                                FileWriter("src/br/pucpr/databases/users.csv",
+                                                                StandardCharsets.UTF_8)) {
+                                                            for (var u : usuarios) {
+                                                                if (u.get(0).equals(user.getLogin())) {
+                                                                    String oldCompras = u.get(2).substring(1,
+                                                                            u.get(2).indexOf("|"));
+                                                                    if (!oldCompras.equals("")) {
+                                                                        String newCompras = oldCompras.concat(",%s"
                                                                                 .formatted(
                                                                                         user.getCarrinho().toString()));
 
-                                                                u.set(2, "{%s|%.2f}".formatted(
-                                                                        newCompras,
-                                                                        user.getCarrinho().getPrecoTotal() +
-                                                                        user.getGasto()));
+                                                                        u.set(2, "{%s|%.2f}".formatted(
+                                                                                newCompras,
+                                                                                user.getCarrinho().getPrecoTotal() +
+                                                                                        user.getGasto()));
+                                                                    } else {
+                                                                        u.set(2, "{%s|%.2f}".formatted(
+                                                                                user.getCarrinho().toString(),
+                                                                                user.getCarrinho().getPrecoTotal() +
+                                                                                        user.getGasto()));
+                                                                    }
+                                                                }
                                                             }
+                                                            StringBuilder novo_db = new StringBuilder();
+                                                            for (var u : usuarios) {
+                                                                novo_db.append("%s;%s;%s\n".formatted(
+                                                                        u.get(0), u.get(1), u.get(2)));
+                                                            }
+                                                            fw.write("LOGIN;SENHA;HISTÓRICO\n" + novo_db);
+                                                        } catch (IOException e) {
+                                                            e.printStackTrace();
                                                         }
-                                                        StringBuilder novo_db = new StringBuilder();
-                                                        for (var u : usuarios) {
-                                                            novo_db.append("%s;%s;%s\n".formatted(
-                                                                    u.get(0), u.get(1), u.get(2)));
-                                                        }
-                                                        fw.write("LOGIN;SENHA;HISTÓRICO\n" + novo_db);
-                                                    } catch (IOException e) {
-                                                        e.printStackTrace();
+                                                        Thread.sleep(1000);
+                                                        System.out.println(VERDE + "Compra finalizada com sucesso.");
+                                                        Thread.sleep(1500);
+                                                        System.out.println("Obrigado e até a próxima!" + RESET);
+                                                        Thread.sleep(1000);
+                                                        System.exit(0);
+
+                                                    } catch (QuantInvalidaException e) {
+                                                        System.out.println(VERMELHO +
+                                                                "ERRO! Não há estoque suficiente.");
+                                                        System.out.println(e.getMessage() + RESET);
+                                                        standby();
                                                     }
-                                                    Thread.sleep(1000);
-                                                    System.out.println(VERDE + "Compra finalizada com sucesso.");
-                                                    Thread.sleep(1500);
-                                                    System.out.println("Obrigado e até a próxima!" + RESET);
-                                                    Thread.sleep(1000);
-                                                    System.exit(0);
                                                 }
                                                 default -> {
                                                     System.out.println("Opção inválida. Tente novamente");
